@@ -29,6 +29,7 @@
     "format": "prettier --write \"packages/**/*.{ts,tsx,json}\""
   },
   "devDependencies": {
+    "@nestjs/cli": "^10.4.0",
     "concurrently": "^9.1.0",
     "prettier": "^3.4.0",
     "prisma": "^6.1.0",

@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     rootDir: .
-    buildCommand: npm install && npm run build:backend && npx prisma generate
+    buildCommand: npm install --include=dev && npm run build:backend && npx prisma generate
     startCommand: npm run start:backend
     envVars:
       - key: NODE_ENV

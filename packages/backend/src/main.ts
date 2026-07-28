@@ -9,11 +9,19 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
+  const allowedOrigins = [
+    process.env.MINIAPP_URL || 'http://localhost:3000',
+    process.env.ADMIN_URL || 'http://localhost:3003',
+  ];
+
   app.enableCors({
-    origin: [
-      process.env.MINIAPP_URL || 'http://localhost:3000',
-      process.env.ADMIN_URL || 'http://localhost:3003',
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -40,7 +48,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  const port = process.env.BACKEND_PORT || 3001;
+  const port = process.env.PORT || process.env.BACKEND_PORT || 3001;
   await app.listen(port);
   console.log(`🚀 Backend server ishga tushdi: http://localhost:${port}`);
   console.log(`📚 API Docs: http://localhost:${port}/docs`);
